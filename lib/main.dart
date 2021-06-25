@@ -48,8 +48,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var billAmount = 0;
-  var tipPercentage = 15;
+  var billAmount = 0.0;
+  var tipPercentage = 15.0;
 
   final _billAmountEditingController = TextEditingController();
   final _tipEditingController = TextEditingController(text: '15');
@@ -75,9 +75,13 @@ class _HomePageState extends State<HomePage> {
                 decimal: true,
               ),
               onChanged: (value) {
-                if (value.isNotEmpty) {
+                if (value.isEmpty) {
                   setState(() {
-                    billAmount = int.parse(value);
+                    billAmount = 0;
+                  });
+                } else {
+                  setState(() {
+                    billAmount = double.parse(value);
                   });
                 }
               },
@@ -92,9 +96,13 @@ class _HomePageState extends State<HomePage> {
                 decimal: true,
               ),
               onChanged: (value) {
-                if (value.isNotEmpty) {
+                if (value.isEmpty) {
                   setState(() {
-                    tipPercentage = int.parse(value);
+                    tipPercentage = 0;
+                  });
+                } else {
+                  setState(() {
+                    tipPercentage = double.parse(value);
                   });
                 }
               },
