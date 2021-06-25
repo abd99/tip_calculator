@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   var billAmount = 0;
   var tipPercentage = 15;
 
-  final _billAmountEditingController = TextEditingController(text: '0');
+  final _billAmountEditingController = TextEditingController();
   final _tipEditingController = TextEditingController(text: '15');
 
   @override
