@@ -48,18 +48,86 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var billAmount = 0.0;
+  var tipPercentage = 15.0;
+
+  final _billAmountEditingController = TextEditingController();
+  final _tipEditingController = TextEditingController(text: '15');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[],
+          children: [
+            TextField(
+              controller: _billAmountEditingController,
+              decoration: const InputDecoration(
+                prefixText: '\$',
+                labelText: 'Bill Amount',
+                hintText: 'eg. 50',
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  setState(() {
+                    billAmount = 0;
+                  });
+                } else {
+                  setState(() {
+                    billAmount = double.parse(value);
+                  });
+                }
+              },
+            ),
+            TextField(
+              controller: _tipEditingController,
+              decoration: const InputDecoration(
+                labelText: 'Tip %',
+                hintText: 'eg. 15',
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  setState(() {
+                    tipPercentage = 0;
+                  });
+                } else {
+                  setState(() {
+                    tipPercentage = double.parse(value);
+                  });
+                }
+              },
+            ),
+            const SizedBox(
+              height: 16.0,
+            ),
+            Text(
+              'Tip amount: \$${_getCalculatedTip()}',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            const SizedBox(
+              height: 16.0,
+            ),
+            Text(
+              'Total amount: \$${_getTotalBill()}',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ],
         ),
       ),
     );
   }
+
+  double _getCalculatedTip() => billAmount * tipPercentage / 100;
+
+  double _getTotalBill() => billAmount + _getCalculatedTip();
 }
